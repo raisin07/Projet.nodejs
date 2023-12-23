@@ -1,3 +1,4 @@
+
 const express = require("express");
 
 const app = express();
@@ -12,4 +13,3 @@ app.get("/post", (req,res) => {
 
 // Lancer le serveur
 app.listen(PORT, () => console.log('Le server est sur le port ' + PORT));
-
