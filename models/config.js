@@ -1,6 +1,12 @@
 const { Sequelize } = require("sequelize");
 
-const DEFAULT_DATABASE_URL = "mysql://root:password@localhost:3306/app";
+const username = 'root';
+const password = 'toor';
+const host = 'localhost';
+const database = 'buy';
+const port = 3306;
+
+const DEFAULT_DATABASE_URL = `mysql://${username}:${password}@${host}:${port}/${database}`;
 
 const connection = new Sequelize(
   process.env.DATABASE_URL || DEFAULT_DATABASE_URL

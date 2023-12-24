@@ -1,18 +1,27 @@
 const { Model, DataTypes } = require("sequelize");
-const connection = require("./config.js");
-const bcrypt = require("bcryptjs");
+const connection = require("./config");
 
 class Order extends Model {}
 
 Order.init(
   {
-    orderDate: {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    date: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW
+      defaultValue: DataTypes.NOW,
     },
     total: {
       type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
       allowNull: false
     }
   },
@@ -21,8 +30,5 @@ Order.init(
   }
 );
 
-// Association avec Utilisateur
-Order.belongsTo(User, { foreignKey: 'userId' });
-User.hasMany(Order, { foreignKey: 'userId' });
 
 module.exports = Order;

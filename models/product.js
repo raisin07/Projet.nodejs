@@ -13,6 +13,12 @@ Product.init(
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     }
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
+    },
   },
   {
     sequelize: connection,

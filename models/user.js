@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require("sequelize");
-const connection = require("../config.js");
+const connection = require("./config");
 const bcrypt = require("bcryptjs");
 
 class User extends Model {}
@@ -23,15 +23,11 @@ User.init(
         len: [1],
       },
     },
-    role: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: "USER",
-    },
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
+      autoIncrement: true,
     },
   },
   {
