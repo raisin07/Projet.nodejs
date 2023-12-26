@@ -1,6 +1,7 @@
 const { Router } = require("express");
-const { Order, Product, User } = require("../models"); // Assurez-vous d'importer les modèles nécessaires
-const checkAuth = require("../middlewares/checkAuth");
+const { Product } = require("../models/product");
+const { Order } = require("../models/order");
+const { User } = require("../models/user");
 const checkRole = require("../middlewares/checkRole");
 const router = new Router();
 
@@ -8,7 +9,7 @@ const router = new Router();
 router.get("/orders", checkAuth(), async (req, res) => {
   try {
     const orders = await Order.findAll({
-      include: [Product, User] // Inclut les informations liées des produits et utilisateurs
+      include: [Product, User] 
     });
     res.json(orders);
   } catch (error) {
@@ -19,7 +20,7 @@ router.get("/orders", checkAuth(), async (req, res) => {
 // Créer une nouvelle commande
 router.post("/orders", checkAuth(), async (req, res, next) => {
   try {
-    const newOrder = new Order({ ...req.body, userId: req.user.id }); // Supposons que req.user.id est défini
+    const newOrder = new Order({ ...req.body, userId: req.user.id }); 
     await newOrder.save();
     res.status(201).json(newOrder);
   } catch (error) {
@@ -31,7 +32,7 @@ router.post("/orders", checkAuth(), async (req, res, next) => {
 router.get("/orders/:id", checkAuth(), async (req, res) => {
   try {
     const order = await Order.findByPk(req.params.id, {
-      include: [Product, User] // Inclut les informations liées des produits et utilisateurs
+      include: [Product, User] 
     });
     if (order) {
       res.json(order);
@@ -52,7 +53,7 @@ router.put("/orders/:id", checkAuth(), checkRole(checkRole.ROLES.ADMIN), async (
       res.sendStatus(404);
     } else {
       const updatedOrder = await Order.findByPk(id, {
-        include: [Product, User] // Inclut les informations liées des produits et utilisateurs
+        include: [Product, User] 
       });
       res.json(updatedOrder);
     }
