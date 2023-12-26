@@ -25,10 +25,11 @@ Product.init(
   },
   {
     sequelize: connection,
+    modelName: 'Product'
   }
 );
 
-Product.hasMany(Avis, { foreignKey: 'productId' });
+
 
 
 module.exports = Product;
