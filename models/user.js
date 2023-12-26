@@ -1,6 +1,8 @@
 const { Model, DataTypes } = require("sequelize");
 const connection = require("./config");
 const bcrypt = require("bcryptjs");
+const Order = require("./order.js");
+const Avis = require("./avis.js");
 
 class User extends Model {}
 
@@ -8,6 +10,7 @@ User.init(
   {
     lastname: DataTypes.STRING,
     firstname: DataTypes.STRING,
+
     email: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -16,13 +19,15 @@ User.init(
         isEmail: true,
       },
     },
+
     password: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [1],
+        len: [25],
       },
     },
+
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -34,6 +39,10 @@ User.init(
     sequelize: connection,
   }
 );
+
+User.hasMany(Order, { foreignKey: 'userId' });
+User.hasMany(Avis, { foreignKey: 'userId' });
+
 
 function hashPassword(user) {
   user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync());

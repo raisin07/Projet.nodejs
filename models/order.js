@@ -1,5 +1,10 @@
 const { Model, DataTypes } = require("sequelize");
 const connection = require("./config");
+const User = require("./user.js");
+const Order = require("./order.js");
+const Product = require("./product.js");
+const Avis = require("./avis.js");
+
 
 class Order extends Model {}
 
@@ -20,9 +25,13 @@ Order.init(
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
-    userId: {
+    id: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'User',
+        key: 'id', 
+      }
     }
   },
   {
@@ -30,5 +39,7 @@ Order.init(
   }
 );
 
+Order.belongsTo(User, { foreignKey: 'userId' });
+Order.hasMany(Avis, { foreignKey: 'orderId' });
 
 module.exports = Order;
