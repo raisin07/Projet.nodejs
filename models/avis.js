@@ -1,8 +1,9 @@
 const { Model, DataTypes } = require("sequelize");
-const connection = require("./config"); 
+const connection = require("./config");
+const Order = require("./order.js"); 
 const User = require('./user.js');
-const Product = require('./product.js'); 
-const Order = require('./order.js'); 
+const Product = require('./product.js');
+
 
 class Avis extends Model {}
 
@@ -26,40 +27,24 @@ Avis.init(
       allowNull: true, 
     },
 
-    id: {
+    productId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: 'Product',
-        key: 'id',
-      }
     },
-
-    id: {
+    orderId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: 'Order',
-        key: 'id',
-      }
     },
-
-    id: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: 'User',
-        key: 'id',
-      }
     }
   },
   {
     sequelize: connection,
+    modelName: 'Avis'
   }
 );
 
-Avis.belongsTo(Product, { foreignKey: 'productId' });
-Avis.belongsTo(User, { foreignKey: 'userId' });
-Avis.belongsTo(Order, { foreignKey: 'orderId' });
 
 module.exports = Avis;

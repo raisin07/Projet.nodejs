@@ -34,14 +34,17 @@ User.init(
       primaryKey: true,
       autoIncrement: true,
     },
+    role: {
+      type: DataTypes.STRING,
+      defaultValue: 'user',
+      allowNull: false
+    }
   },
   {
     sequelize: connection,
+    modelName: 'User'
   }
 );
-
-User.hasMany(Order, { foreignKey: 'userId' });
-User.hasMany(Avis, { foreignKey: 'userId' });
 
 
 function hashPassword(user) {
