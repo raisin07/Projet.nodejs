@@ -19,6 +19,9 @@ Groupe L: DROUARD Maureen - BEN HASSINE Reizène
 
 HABANSKI Eliott a quitté le groupe de son propre chef suite à une mésentente interne, le projet a donc été réalisé sans lui.
 
+Voici le lien de son GitHub: https://github.com/eliotthbn/ProjetFinal/tree/main/ProjetfinalV6
+Son pseudo: eliotthbn
+
 Projet: Création d'une API Restfull
 
 Nous avons créé une BDD avec 3 tables (orders, users et products).
