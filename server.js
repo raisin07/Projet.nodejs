@@ -1,13 +1,12 @@
 // Connexion de la base de donnée
 require("./models/config");
 
-const checkRequestFormat = require('./middlewares/checkRequestFormat.js');
-const checkAuth = require('./middlewares/checkAuth.js');
-const errorHandler = require('./middlewares/errorHandler.js');
-const orderRoutes = require('./routes/orders.js');
-const productRoutes = require('./routes/products.js');
-const userRoutes = require('./routes/users.js');
-const avisRoutes = require('./routes/aviss.js');
+const checkRequestFormat = require('./middlewares/checkRequestFormat');
+const errorHandler = require('./middlewares/errorHandler');
+const orderRoutes = require('./routes/orders');
+const productRoutes = require('./routes/products');
+const userRoutes = require('./routes/users');
+const avisRoutes = require('./routes/aviss');
 
 
 //express
@@ -19,14 +18,24 @@ const app = express();
 // Celui ci était un test
 // app.use("/post", require("./routes/post.js"));
 
-app.use(checkRequestFormat);
+
 app.use(express.json());
 
-app.use('/orders', orderRoutes);
-app.use('/users', userRoutes);
-app.use('/products', productRoutes);
-app.use('/avis', avisRoutes);
+app.get('/', (req, res) => {
+    res.send('Bienvenue sur mon serveur Express');
+  });
+  
+app.get('/users', (req, res) => {
+    console.log('Requête reçue sur /users');
+    // ...
+  });
+app.use(checkRequestFormat);
 
+
+app.use(orderRoutes);
+app.use(userRoutes);
+app.use(productRoutes);
+app.use(avisRoutes);
 
 app.use(errorHandler);
 
