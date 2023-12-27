@@ -11,7 +11,7 @@ router.get("/products", checkAuth(), async (req, res) => {
 });
 
 // Créer un nouveau produit
-router.post("/products", checkAuth(), checkRole(checkRole.ROLES.ADMIN), async (req, res, next) => {
+router.post("/products", checkAuth(), checkRole('ADMIN'), async (req, res, next) => {
   try {
     const newProduct = new Product(req.body);
     await newProduct.save();
@@ -23,7 +23,7 @@ router.post("/products", checkAuth(), checkRole(checkRole.ROLES.ADMIN), async (r
 
 // Obtenir un produit spécifique
 router.get("/products/:id", checkAuth(), async (req, res) => {
-  const product = await Product.findByPk(req.params.id);
+  const product = await Product.findByPk(id);
   if (product) {
     res.json(product);
   } else {
@@ -32,7 +32,7 @@ router.get("/products/:id", checkAuth(), async (req, res) => {
 });
 
 // Mettre à jour un produit
-router.put("/products/:id", checkAuth(), checkRole(checkRole.ROLES.ADMIN), async (req, res, next) => {
+router.put("/products/:id", checkAuth(), checkRole('ADMIN'), async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
     const [nbUpdated] = await Product.update(req.body, { where: { id } });
@@ -47,10 +47,21 @@ router.put("/products/:id", checkAuth(), checkRole(checkRole.ROLES.ADMIN), async
 });
 
 // Supprimer un produit
-router.delete("/products/:id", checkAuth(), checkRole(checkRole.ROLES.ADMIN), async (req, res) => {
-  const id = parseInt(req.params.id);
-  const nbDeleted = await Product.destroy({ where: { id } });
-  res.sendStatus(!nbDeleted ? 404 : 204);
+// Supprimer un produit
+router.delete("/products/:id", checkAuth(), checkRole('ADMIN'), async (req, res) => {
+  try {
+    const id = parseInt(req.params.id); // Convertit l'ID de la requête en nombre
+
+    const nbDeleted = await Product.destroy({ where: { id } });
+
+    if (nbDeleted === 0) {
+      res.status(404).send('Produit non trouvé');
+    } else {
+      res.sendStatus(204);
+    }
+  } catch (error) {
+    res.status(500).send('Erreur lors de la suppression du produit');
+  }
 });
 
 module.exports = router;

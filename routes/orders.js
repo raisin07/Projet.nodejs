@@ -3,6 +3,7 @@ const { Product } = require("../models/product");
 const { Order } = require("../models/order");
 const { User } = require("../models/user");
 const checkRole = require("../middlewares/checkRole");
+const checkAuth = require("../middlewares/checkAuth");
 const router = new Router();
 
 // Obtenir toutes les commandes
@@ -45,7 +46,7 @@ router.get("/orders/:id", checkAuth(), async (req, res) => {
 });
 
 // Mettre à jour une commande
-router.put("/orders/:id", checkAuth(), checkRole(checkRole.ROLES.ADMIN), async (req, res, next) => {
+router.put("/orders/:id", checkAuth(), checkRole('ADMIN'), async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
     const [nbUpdated] = await Order.update(req.body, { where: { id } });
@@ -63,7 +64,7 @@ router.put("/orders/:id", checkAuth(), checkRole(checkRole.ROLES.ADMIN), async (
 });
 
 // Supprimer une commande
-router.delete("/orders/:id", checkAuth(), checkRole(checkRole.ROLES.ADMIN), async (req, res) => {
+router.delete("/orders/:id", checkAuth(), checkRole('ADMIN'), async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     const nbDeleted = await Order.destroy({ where: { id } });
