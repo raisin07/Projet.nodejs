@@ -1,4 +1,3 @@
-
 const User = require("./user.js");
 const Order = require("./order.js");
 const Product = require("./product.js");
