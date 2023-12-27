@@ -46,11 +46,11 @@ router.put("/products/:id", checkAuth(), checkRole('ADMIN'), async (req, res, ne
   }
 });
 
-// Supprimer un produit
+
 // Supprimer un produit
 router.delete("/products/:id", checkAuth(), checkRole('ADMIN'), async (req, res) => {
   try {
-    const id = parseInt(req.params.id); // Convertit l'ID de la requête en nombre
+    const id = parseInt(req.params.id); 
 
     const nbDeleted = await Product.destroy({ where: { id } });
 
