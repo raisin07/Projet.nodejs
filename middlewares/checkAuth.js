@@ -1,20 +1,23 @@
-const jwt=require("jsonwebtoken");
-const User=require("../models/user.js");
+const jwt = require("jsonwebtoken");
+const SECRET = process.env.JWT_SECRET || "my-super-secret-64";
 
-module.exports=({ transient=false }={}) =>
-  async function checkAuth(req, res, next) {
-    
-    const headerValue=req.headers.Authorization ?? req.headers.authorization;
+module.exports = function (options = {}) {
+  return function (req, res, next) {
+    const authorization = req.headers["authorization"];
 
-    if (!headerValue) return transient ? next() : res.sendStatus(401);
+    if (!authorization && options.anonymous) return next();
 
-    const [type, token]=headerValue.split(/\s+/);
+    if (!authorization) return res.sendStatus(401);
 
-    if (type !== "Bearer") return transient ? next() : res.sendStatus(401);
+    const [type, token] = authorization.split(" ");
+    if (type !== "Bearer") return res.sendStatus(401);
 
-    const payload=jwt.verify(token, process.env.JWT_SECRET);
-
-    req.user=await User.findByPk(payload.userId);
-
-    next();
-  };
+    try {
+      const user = jwt.verify(token, SECRET);
+      req.user = user;
+      next();
+    } catch (error) {
+      res.sendStatus(401);
+    }
+  };
+};
