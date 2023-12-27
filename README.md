@@ -24,4 +24,4 @@ Son pseudo: eliotthbn
 
 Projet: Création d'une API Restfull
 
-Nous avons créé une BDD avec 3 tables (orders, users et products).
+Nous avons créé une BDD avec 4 tables (orders, users, avis et products).
